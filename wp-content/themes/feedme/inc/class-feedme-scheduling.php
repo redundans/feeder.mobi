@@ -5,7 +5,7 @@
  * @package feedme
  */
 
-use \PHPePub\Core\EPub;
+use PHPePub\Core\EPub;
 use PHPePub\Helpers\CalibreHelper;
 
 /**
