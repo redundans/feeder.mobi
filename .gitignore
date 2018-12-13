@@ -1,0 +1,31 @@
+#Exclude everything in the WordPress installation
+./*.php
+index.php
+license.txt
+readme.html
+wp-activate.php
+wp-admin/
+wp-blog-header.php
+wp-comments-post.php
+wp-config-sample.php
+wp-config.php
+wp-content/
+wp-cron.php
+wp-includes/
+wp-links-opml.php
+wp-load.php
+wp-login.php
+wp-mail.php
+wp-settings.php
+wp-signup.php
+wp-trackback.php
+xmlrpc.php
+
+#Exclude the files we want to track
+!wp-content/themes/feedme
+!wp-content/themes/feedme/*
+!wp-content/mu-plugins/action-scheduler
+!wp-content/mu-plugins/action-scheduler/*
+
+#Other
+.DS_Store
