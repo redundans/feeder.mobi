@@ -270,14 +270,14 @@ class Feedme_Scheduling {
 			$attachments = array( $mobi );
 			$email       = get_user_meta( $user->ID, 'feedme_email', true );
 			$headers     = array(
-				'From: feedme <delivery@feedme.mobi>',
+				'From: feedme <delivery@feeder.mobi>',
 			);
 			$headers     = array(
 				'Content-Type: text/html; charset=UTF-8',
-				'From: feedme <delivery@feedme.mobi>',
+				'From: feedme <delivery@feeder.mobi>',
 			);
 
-			return wp_mail( $email, 'Your latest scheduled feed!', 'This mail contains the latest scheduled feed from <a href="' . esc_url( home_url( '/' ) ) . '">feedme.mobi</a>.', $headers, $attachments );
+			return wp_mail( $email, 'Your latest scheduled feed!', 'This mail contains the latest scheduled feed from <a href="' . esc_url( home_url( '/' ) ) . '">feeder.mobi</a>.', $headers, $attachments );
 		} else {
 			return false;
 		}

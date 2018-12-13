@@ -4,6 +4,10 @@
  *
  * @package feedme
  */
+use PHPePub\Core\EPub;
+use PHPePub\Helpers\CalibreHelper;
+
+$book = new EPub();
 
 /**
  * This class handles all settings for feedme users.
