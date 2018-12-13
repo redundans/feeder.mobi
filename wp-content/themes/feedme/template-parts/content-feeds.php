@@ -47,19 +47,16 @@
 					</td>
 				</tr>
 				<?php
-				//echo '<li><strong>' . get_the_title() . '</strong><br/>' . esc_url( $url ) . '<br/>' . get_feedme_delete_button() . '</li>';
 			}
 
 			echo '</table>';
+			echo '<p>input type="submit" value="' . esc_html__( 'Remove feed', 'feedme' ) . '"></p>';
 
 			wp_reset_postdata();
 		} else {
 			echo esc_html__( 'Sorry, no feeds could be found.', 'feedme' );
 		}
 		?>
-			<p>
-				<input type="submit" value="<?php echo esc_html__( 'Remove feed', 'feedme' ); ?>">
-			</p>
 		</form>
 
 		<form id="feedsform" method="post" action="<?php echo esc_url( $current_url ); ?>">
