@@ -252,7 +252,7 @@ class Feedme_Scheduling {
 	public static function create_mobi_from_epub( $epub ) {
 		if ( file_exists( $epub ) ) {
 			$mobi   = str_replace( '.epub', '.mobi', $epub );
-			$output = shell_exec( '/usr/local/bin/kindlegen ' . $epub . ' -o ' . basename( $mobi ) );
+			$output = shell_exec( '/usr/bin/kindlegen ' . $epub . ' -o ' . basename( $mobi ) );
 			return $mobi;
 		}
 		return false;
