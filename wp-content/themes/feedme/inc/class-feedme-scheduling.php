@@ -198,8 +198,8 @@ class Feedme_Scheduling {
 
 		// Title and Identifier are mandatory!
 		$book->setTitle( $title );
-		$book->setDescription( 'Your automatic updated feeds from feedme.' );
-		$book->setAuthor( 'feedme', 'feedme' );
+		$book->setDescription( 'Your automatic updated feeds from feeder.mobi.' );
+		$book->setAuthor( 'feeder.mobi', 'feedme' );
 
 		// Set chapter indexing.
 		$index    = 1;
@@ -270,11 +270,11 @@ class Feedme_Scheduling {
 			$attachments = array( $mobi );
 			$email       = get_user_meta( $user->ID, 'feedme_email', true );
 			$headers     = array(
-				'From: feedme <delivery@feeder.mobi>',
+				'From: feeder.mobi <delivery@feeder.mobi>',
 			);
 			$headers     = array(
 				'Content-Type: text/html; charset=UTF-8',
-				'From: feedme <delivery@feeder.mobi>',
+				'From: feeder.mobi <delivery@feeder.mobi>',
 			);
 
 			return wp_mail( $email, 'Your latest scheduled feed!', 'This mail contains the latest scheduled feed from <a href="' . esc_url( home_url( '/' ) ) . '">feeder.mobi</a>.', $headers, $attachments );
