@@ -25,7 +25,7 @@
 
 	<header id="masthead">
 		<div id="menu">
-			<h1>feedme</h1>
+			<h1><?php echo esc_html( get_bloginfo( 'name' ) ); ?></h1>
 			<ul>
 				<?php
 				$main_query = new WP_Query(
