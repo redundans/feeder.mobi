@@ -78,7 +78,13 @@ class Feedme_Settings {
 				}
 
 				if ( isset( $_REQUEST['feedme_schedule'] ) ) {
+					// If never been scheduled before set default values.
 					$last = $this->get_setting( 'last' );
+					if ( empty( $last ) ) {
+						$this->set_setting( 'next', time() );
+						$this->set_setting( 'last', time() );
+					}
+					// Save scheduling.
 					$value = sanitize_text_field( wp_unslash( $_REQUEST['feedme_schedule'] ) );
 					if ( ! empty( $value ) ) {
 						$this->set_setting( 'schedule', $value );

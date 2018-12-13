@@ -43,7 +43,7 @@
 				}
 				?>
 			</select>
-			<small>Last parsed <?php echo esc_html( human_time_diff( $user_settigs->get_setting( 'last' ), current_time( 'timestamp' ) ) ); ?> ago.</small>
+			<small>Last parsed <?php echo esc_html( human_time_diff( (int) $user_settigs->get_setting( 'last' ), (int) current_time( 'timestamp' ) ) ); ?> ago.</small>
 		</p>
 		<p>
 			<input type="submit" value="<?php echo esc_html__( 'Save', 'feedme' ); ?>">
