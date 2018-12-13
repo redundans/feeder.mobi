@@ -50,7 +50,7 @@
 			}
 
 			echo '</table>';
-			echo '<p>input type="submit" value="' . esc_html__( 'Remove feed', 'feedme' ) . '"></p>';
+			echo '<p><input type="submit" value="' . esc_html__( 'Remove feed', 'feedme' ) . '"></p>';
 
 			wp_reset_postdata();
 		} else {
