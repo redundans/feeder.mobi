@@ -935,6 +935,18 @@ header#masthead #menu {
 	}
 }
 
+header#masthead .custom-logo {
+	max-width: 100px;
+	margin: 2.5rem 0 1rem;
+}
+
+@media screen and (max-width: 920px) {
+	header#masthead .custom-logo {
+		max-width: 65px;
+		margin: 1.5rem 0 0;
+	}
+}
+
 header#masthead h1 {
 	font-size: 1.25em;
 	margin: 2rem 0 1rem;
@@ -1042,9 +1054,9 @@ article a, nav a {
 article > header > h1,
 article > header > h2,
 #site-navigation h1 {
-	font-size: 2.4em;
+	font-size: 2em;
 	line-height: 1em;
-	margin: 0 0 .4em 0;
+	margin: .25em 0 .4em 0;
 }
 
 @media screen and (max-width: 920px) {

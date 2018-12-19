@@ -25,7 +25,15 @@
 
 	<header id="masthead">
 		<div id="menu">
-			<h1><?php echo esc_html( get_bloginfo( 'name' ) ); ?></h1>
+			<?php
+			if ( function_exists( 'the_custom_logo' ) ) :
+				the_custom_logo();
+			else :
+				?>
+				<h1><?php echo esc_html( get_bloginfo( 'name' ) ); ?></h1>
+				<?php
+			endif;
+			?>
 			<ul>
 				<?php
 				$main_query = new WP_Query(
