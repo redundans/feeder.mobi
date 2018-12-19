@@ -82,7 +82,7 @@ class Feedme_Scheduling {
 	 */
 	public function setup_scheduling() {
 		if ( false === as_next_scheduled_action( 'feedme_run_scheduling' ) ) {
-			as_schedule_recurring_action( strtotime( 'Tomorrow 06:00' ), DAY_IN_SECONDS, 'feedme_run_scheduling' );
+			as_schedule_recurring_action( strtotime( '+1 hours' ), DAY_IN_SECONDS, 'feedme_run_scheduling' );
 		}
 	}
 
