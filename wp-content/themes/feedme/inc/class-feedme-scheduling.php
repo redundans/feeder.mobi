@@ -82,7 +82,7 @@ class Feedme_Scheduling {
 	 */
 	public function setup_scheduling() {
 		if ( false === as_next_scheduled_action( 'feedme_run_scheduling' ) ) {
-			as_schedule_recurring_action( strtotime( '+1 hours' ), DAY_IN_SECONDS, 'feedme_run_scheduling' );
+			as_schedule_recurring_action( strtotime( '+1 hours' ), HOUR_IN_SECONDS, 'feedme_run_scheduling' );
 		}
 	}
 
@@ -180,7 +180,6 @@ class Feedme_Scheduling {
 		if ( ! file_exists( $file_dir ) ) {
 			wp_mkdir_p( $file_dir );
 		}
-		// file_put_contents( $file_dir . '/output.txt', print_r( $chapters, true ), FILE_APPEND | LOCK_EX );
 
 		$content_start =
 			"<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
