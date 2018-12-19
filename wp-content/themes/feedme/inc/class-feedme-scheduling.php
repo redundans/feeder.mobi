@@ -43,7 +43,7 @@ class Feedme_Scheduling {
 	 */
 	private static function add_single_schedule( $user ) {
 		as_schedule_single_action(
-			time(),
+			current_time( 'timestamp' ),
 			'feedme_run_single_schedule',
 			array(
 				$user->ID,
@@ -58,7 +58,7 @@ class Feedme_Scheduling {
 		$user_query = new WP_User_Query(
 			array(
 				'meta_key'     => 'feedme_next',
-				'meta_value'   => time(),
+				'meta_value'   => current_time( 'timestamp' ),
 				'meta_compare' => '<',
 			)
 		);
@@ -68,7 +68,7 @@ class Feedme_Scheduling {
 				$user_settings = new Feedme_Settings( $user );
 				$schedule      = $user_settings->get_setting( 'schedule' );
 				$next          = strtotime( $schedule );
-				$last          = time();
+				$last          = current_time( 'timestamp' );
 
 				self::add_single_schedule( $user );
 				$user_settings->set_setting( 'next', $next );
@@ -82,7 +82,7 @@ class Feedme_Scheduling {
 	 */
 	public function setup_scheduling() {
 		if ( false === as_next_scheduled_action( 'feedme_run_scheduling' ) ) {
-			as_schedule_recurring_action( strtotime( 'Tomorrow 08:00' ), DAY_IN_SECONDS, 'feedme_run_scheduling' );
+			as_schedule_recurring_action( strtotime( 'Tomorrow 06:00' ), DAY_IN_SECONDS, 'feedme_run_scheduling' );
 		}
 	}
 
@@ -101,7 +101,7 @@ class Feedme_Scheduling {
 		$mobi          = self::create_mobi_from_epub( $epub );
 		$mail          = self::mail_mobi( $user, $mobi );
 
-		$user_settings->set_setting( 'last', time() );
+		$user_settings->set_setting( 'last', current_time( 'timestamp' ) );
 	}
 
 	/**
