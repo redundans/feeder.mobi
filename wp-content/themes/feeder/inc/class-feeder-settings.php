@@ -4,6 +4,7 @@
  *
  * @package feeder
  */
+
 use PHPePub\Core\EPub;
 use PHPePub\Helpers\CalibreHelper;
 
@@ -82,18 +83,18 @@ class Feeder_Settings {
 				}
 
 				if ( isset( $_REQUEST['feeder_schedule'] ) ) {
-					// If never been scheduled before set default values.
-					$last = $this->get_setting( 'last' );
-					if ( empty( $last ) ) {
-						$this->set_setting( 'next', time() );
-						$this->set_setting( 'last', time() );
-					}
 					// Save scheduling.
 					$value = sanitize_text_field( wp_unslash( $_REQUEST['feeder_schedule'] ) );
 					if ( ! empty( $value ) ) {
 						$this->set_setting( 'schedule', $value );
 					} else {
 						$feeder_error_messages[] = esc_html__( 'No valide scheduling.', 'feeder' );
+					}
+					// If never been scheduled before set default values.
+					$last = $this->get_setting( 'last' );
+					if ( empty( $last ) ) {
+						$this->set_setting( 'next', strtotime( $value ) );
+						$this->set_setting( 'last', time() );
 					}
 				}
 			}

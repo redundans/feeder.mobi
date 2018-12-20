@@ -94,7 +94,7 @@ class Feeder_Scheduling {
 		$user          = wp_get_current_user();
 		$user_settings = new Feeder_Settings( $user );
 		$schedule      = $user_settings->get_setting( 'schedule' );
-		$last          = strtotime( ( '08:00 tomorrow' === $schedule ? '08:00 yesterday' : '08:00 last week' ) );
+		$last          = strtotime( ( 'tomorrow 08:00' === $schedule ? 'tomorrow 08:00' : 'last week 08:00' ) );
 		$feeds         = self::get_user_feeds( $user );
 		$chapters      = self::prepare_chapters_from_feeds( $feeds, $last );
 		$epub          = self::create_epub_from_chapters( $chapters, $user );
