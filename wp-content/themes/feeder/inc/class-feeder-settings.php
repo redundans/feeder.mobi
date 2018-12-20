@@ -92,7 +92,8 @@ class Feeder_Settings {
 					}
 					// If never been scheduled before set default values.
 					$last = $this->get_setting( 'last' );
-					if ( empty( $last ) ) {
+					$next = $this->get_setting( 'last' );
+					if ( empty( $last ) || empty( $next ) ) {
 						$this->set_setting( 'next', strtotime( $value ) );
 						$this->set_setting( 'last', time() );
 					}
