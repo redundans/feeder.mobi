@@ -85,15 +85,16 @@ class Feeder_Settings {
 				if ( isset( $_REQUEST['feeder_schedule'] ) ) {
 					// Save scheduling.
 					$value = sanitize_text_field( wp_unslash( $_REQUEST['feeder_schedule'] ) );
+					$old_value = $this->set_setting( 'schedule', $value );
 					if ( ! empty( $value ) ) {
 						$this->set_setting( 'schedule', $value );
 					} else {
 						$feeder_error_messages[] = esc_html__( 'No valide scheduling.', 'feeder' );
 					}
-					// If never been scheduled before set default values.
+					// If never been scheduled before set default values och schedule was changed.
 					$last = $this->get_setting( 'last' );
 					$next = $this->get_setting( 'next' );
-					if ( empty( $last ) || empty( $next ) ) {
+					if ( $old_value !== $value || empty( $last ) || empty( $next ) ) {
 						$this->set_setting( 'next', strtotime( $value ) );
 						$this->set_setting( 'last', time() );
 					}
