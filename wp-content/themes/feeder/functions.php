@@ -1,6 +1,6 @@
 <?php
 /**
- * Feedme WP functions and definitions
+ * Feeder WP functions and definitions
  *
  * @link https://developer.wordpress.org/themes/basics/theme-functions/
  *
@@ -164,17 +164,17 @@ require get_template_directory() . '/inc/template-functions.php';
 require get_template_directory() . '/inc/customizer.php';
 
 /**
- * Feedme User Settings.
+ * Feeder User Settings.
  */
 require get_template_directory() . '/inc/class-feeder-settings.php';
 
 /**
- * Feedme User feeds.
+ * Feeder User feeds.
  */
 require get_template_directory() . '/inc/class-feeder-feeds.php';
 
 /**
- * Feedme Scheduling.
+ * Feeder Scheduling.
  */
 require get_template_directory() . '/inc/class-feeder-scheduling.php';
 

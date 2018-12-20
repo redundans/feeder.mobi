@@ -1,6 +1,6 @@
 <?php
 /**
- * Feedme User Settings
+ * Feeder User Settings
  *
  * @package feeder
  */
@@ -8,7 +8,7 @@
 /**
  * This class handles all settings for feeder users.
  */
-class Feedme_Feeds {
+class Feeder_Feeds {
 
 	/**
 	 * A user object set up by __construct.
@@ -147,7 +147,7 @@ class Feedme_Feeds {
 	}
 
 	/**
-	 * Handle posted request data if it comes from Feedme User Settings forms.
+	 * Handle posted request data if it comes from Feeder User Settings forms.
 	 */
 	public function process_post() {
 		if ( isset( $_REQUEST['_wpnonce'] ) ) {
@@ -187,7 +187,7 @@ add_action(
 	'init',
 	function() {
 		$user          = wp_get_current_user();
-		$user_settings = new Feedme_Feeds( $user );
+		$user_settings = new Feeder_Feeds( $user );
 
 		$user_settings->process_post();
 	}

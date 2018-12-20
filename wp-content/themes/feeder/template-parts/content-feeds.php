@@ -26,7 +26,7 @@
 		global $wp;
 
 		$user        = wp_get_current_user();
-		$user_feeds  = new Feedme_Feeds( $user );
+		$user_feeds  = new Feeder_Feeds( $user );
 		$feeds       = $user_feeds->get_feeds();
 		$current_url = home_url( add_query_arg( array(), $wp->request ) );
 

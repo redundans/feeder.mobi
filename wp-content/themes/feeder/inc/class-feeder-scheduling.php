@@ -1,6 +1,6 @@
 <?php
 /**
- * Feedme Scheduling
+ * Feeder Scheduling
  *
  * @package feeder
  */
@@ -11,7 +11,7 @@ use PHPePub\Helpers\CalibreHelper;
 /**
  * This class handles all scheduling.
  */
-class Feedme_Scheduling {
+class Feeder_Scheduling {
 
 	/**
 	 * A user object set up by __construct.
@@ -66,7 +66,7 @@ class Feedme_Scheduling {
 
 		if ( ! empty( $user_query->get_results() ) ) {
 			foreach ( $user_query->get_results() as $user ) {
-				$user_settings = new Feedme_Settings( $user );
+				$user_settings = new Feeder_Settings( $user );
 				$schedule      = $user_settings->get_setting( 'schedule' );
 				$next          = strtotime( $schedule );
 				$last          = current_time( 'timestamp' );
@@ -92,7 +92,7 @@ class Feedme_Scheduling {
 	 */
 	public static function run_test_schedule() {
 		$user          = wp_get_current_user();
-		$user_settings = new Feedme_Settings( $user );
+		$user_settings = new Feeder_Settings( $user );
 		$schedule      = $user_settings->get_setting( 'schedule' );
 		$last          = strtotime( ( '08:00 tomorrow' === $schedule ? '08:00 yesterday' : '08:00 last week' ) );
 		$feeds         = self::get_user_feeds( $user );
@@ -116,7 +116,7 @@ class Feedme_Scheduling {
 	 */
 	public static function run_single_schedule( int $user_id ) {
 		$user          = get_user_by( 'ID', $user_id );
-		$user_settings = new Feedme_Settings( $user );
+		$user_settings = new Feeder_Settings( $user );
 		$last          = (int) $user_settings->get_setting( 'last' );
 		$feeds         = self::get_user_feeds( $user );
 		$chapters      = self::prepare_chapters_from_feeds( $feeds, $last );
@@ -259,7 +259,7 @@ class Feedme_Scheduling {
 	 * @return string
 	 */
 	private function get_epub_title( $user ): string {
-		$user_settings = new Feedme_Settings( $user );
+		$user_settings = new Feeder_Settings( $user );
 		$schedule      = $user_settings->get_setting( 'schedule' );
 		$title         = 'Your ' . ( '08:00 tomorrow' === $schedule ? 'daily' : 'weekly' ) . ' update';
 		return $title;
@@ -306,4 +306,4 @@ class Feedme_Scheduling {
 	}
 }
 
-new Feedme_Scheduling();
+new Feeder_Scheduling();
