@@ -920,15 +920,16 @@ header#masthead {
 
 header#masthead #menu {
 	display: flex;
-	position: fixed;
+	position: relative;
 	justify-content: space-between;
-	width: calc(100% - 3rem);
+	width: 100%;
 
 	background: #fff;
 }
 
 @media screen and (min-width: 920px) {
 	header#masthead #menu {
+		position: fixed;
 		display: block;
 		width: auto;
 		top: 5rem;
@@ -1046,6 +1047,13 @@ header#masthead > a > svg {
 	padding: 7rem 0 0;
 }
 
+
+@media screen and (max-width: 920px) {
+	.section {
+		padding: 3.5rem 0 0;
+	}
+}
+
 article a, nav a {
 	border-bottom: 0.1em solid;
 	line-height: 1.2em;
@@ -1061,11 +1069,11 @@ article > header > h2,
 
 @media screen and (max-width: 920px) {
 	header#masthead ul li {
-		visibility: hidden;
+		display: none;
 	}
 	header#masthead ul li#loginnav,
 	header#masthead ul li#logoutnav {
-		visibility: visible;
+		display: inline-block;
 	}
 }
 @media screen and (min-width: 920px) {

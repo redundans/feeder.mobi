@@ -48,6 +48,6 @@
 		<p>
 			<input type="submit" value="<?php echo esc_html__( 'Save', 'feedme' ); ?>">
 		</p>
-	</form>
+	</form> <button onClick="getTestMobi()">Test</button>
 
 </article><!-- #post-<?php the_ID(); ?> -->

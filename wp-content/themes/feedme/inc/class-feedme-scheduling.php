@@ -34,6 +34,7 @@ class Feedme_Scheduling {
 		add_action( 'init', array( $this, 'setup_scheduling' ) );
 		add_action( 'feedme_run_single_schedule', array( $this, 'run_single_schedule' ), 10, 1 );
 		add_action( 'feedme_run_scheduling', array( $this, 'run_scheduling' ) );
+		add_action( 'wp_ajax_run_test_schedule', array( $this, 'run_test_schedule' ) );
 	}
 
 	/**
@@ -84,6 +85,27 @@ class Feedme_Scheduling {
 		if ( false === as_next_scheduled_action( 'feedme_run_scheduling' ) ) {
 			as_schedule_recurring_action( strtotime( '+1 hours' ), HOUR_IN_SECONDS, 'feedme_run_scheduling' );
 		}
+	}
+
+	/**
+	 * Genereate test mobi and return a download link.
+	 */
+	public static function run_test_schedule() {
+		$user          = wp_get_current_user();
+		$user_settings = new Feedme_Settings( $user );
+		$last          = strtotime( '08:00 yesterday' );
+		$feeds         = self::get_user_feeds( $user );
+		$chapters      = self::prepare_chapters_from_feeds( $feeds, $last );
+		$epub          = self::create_epub_from_chapters( $chapters, $user );
+		$mobi          = self::create_mobi_from_epub( $epub );
+		$mail          = self::mail_mobi( $user, $mobi );
+
+		echo wp_json_encode(
+			array(
+				'error' => ( false === $mail ? true : false ),
+			)
+		);
+		wp_die();
 	}
 
 	/**

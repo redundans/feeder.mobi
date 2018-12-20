@@ -129,6 +129,8 @@ function feedme_scripts() {
 
 	wp_enqueue_script( 'feedme-script', get_template_directory_uri() . '/js/feedme.js', array(), '1.0', true );
 
+	wp_localize_script( 'feedme-script', 'wp', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
+
 	wp_deregister_script( 'wp-embed' );
 
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
