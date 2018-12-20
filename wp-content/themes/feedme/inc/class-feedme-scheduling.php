@@ -93,7 +93,8 @@ class Feedme_Scheduling {
 	public static function run_test_schedule() {
 		$user          = wp_get_current_user();
 		$user_settings = new Feedme_Settings( $user );
-		$last          = strtotime( '08:00 yesterday' );
+		$schedule      = $user_settings->get_setting( 'schedule' );
+		$last          = strtotime( ( '08:00 tomorrow' === $schedule ? '08:00 yesterday' : '08:00 last week' ) );
 		$feeds         = self::get_user_feeds( $user );
 		$chapters      = self::prepare_chapters_from_feeds( $feeds, $last );
 		$epub          = self::create_epub_from_chapters( $chapters, $user );
