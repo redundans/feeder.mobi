@@ -1,6 +1,6 @@
 <?php
 /**
- * Feedme User Settings
+ * Feeder User Settings
  *
  * @package feeder
  */
@@ -12,7 +12,7 @@ $book = new EPub();
 /**
  * This class handles all settings for feeder users.
  */
-class Feedme_Settings {
+class Feeder_Settings {
 
 	/**
 	 * A user object set up by __construct.
@@ -61,7 +61,7 @@ class Feedme_Settings {
 	}
 
 	/**
-	 * Handle posted request data if it comes from Feedme User Settings forms.
+	 * Handle posted request data if it comes from Feeder User Settings forms.
 	 */
 	public function process_post() {
 		global $feeder_error_messages;
@@ -108,7 +108,7 @@ add_action(
 	'init',
 	function() {
 		$user          = wp_get_current_user();
-		$user_settings = new Feedme_Settings( $user );
+		$user_settings = new Feeder_Settings( $user );
 
 		$user_settings->process_post();
 	}
