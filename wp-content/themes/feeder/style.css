@@ -1068,12 +1068,47 @@ nav a {
 	margin: .25em 0 .4em 0;
 }
 
+header#masthead ul li#menunav img {
+    width: 1rem;
+}
+
+#site-navigation {
+	width: 38em;
+	height: calc( 100vh - 15rem );
+	display: flex;
+	align-items: center;
+}
+
+@media screen and (max-width: 920px) {
+	#site-navigation {
+		width: 100%;
+	}
+}
+
+#site-navigation ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	text-align: center
+}
+
+#site-navigation ul li {
+	padding: .25rem 0;
+}
+
+#site-navigation ul li a {
+	border-bottom: none;
+}
+
+header#masthead ul li#menunav {
+	display: none;
+}
+
 @media screen and (max-width: 920px) {
 	header#masthead ul li {
 		display: none;
 	}
-	header#masthead ul li#loginnav,
-	header#masthead ul li#logoutnav {
+	header#masthead ul li#menunav {
 		display: inline-block;
 	}
 }

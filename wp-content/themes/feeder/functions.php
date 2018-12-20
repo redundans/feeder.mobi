@@ -210,3 +210,28 @@ add_filter(
 	10,
 	2
 );
+
+add_action(
+	'init',
+	function() {
+		add_rewrite_rule( 'menu', 'index.php?menu=true', 'top' );
+	}
+);
+
+add_filter(
+	'query_vars',
+	function( $vars ) {
+		$vars[] = 'menu';
+		return $vars;
+	}
+);
+
+add_filter(
+	'template_include',
+	function( $path ) {
+		if ( get_query_var( 'menu' ) ) {
+			return get_template_directory() . '/menu.php';
+		}
+		return $path;
+	}
+);
