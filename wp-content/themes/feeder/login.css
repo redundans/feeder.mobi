@@ -141,6 +141,8 @@ textarea {
 	border: 1px solid #ccc;
 	border-radius: .25rem;
 	margin-bottom: .5rem;
+	font-size: calc( 15px + 2 * (100vw / 1500)) !important;
+	font-weight: normal;
 
 	height: 2rem;
 	padding: .25rem .5rem;
