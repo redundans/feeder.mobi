@@ -49,6 +49,11 @@ if ( ! function_exists( 'feeder_setup' ) ) :
 			)
 		);
 
+		// Make subscribers able to read private pages.
+		$subscriber_role = get_role( 'subscriber' );
+		$subscriber_role->add_cap( 'read_private_posts' );
+		$subscriber_role->add_cap( 'read_private_pages' );
+
 		/*
 		 * Switch default core markup for search form, comment form, and comments
 		 * to output valid HTML5.
