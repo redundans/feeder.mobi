@@ -136,6 +136,7 @@ function feeder_scripts() {
 		wp_enqueue_script( 'comment-reply' );
 	}
 
+	// Remove styles for blocks.
 	wp_dequeue_style( 'wp-block-library' );
 }
 add_action( 'wp_enqueue_scripts', 'feeder_scripts' );
@@ -235,5 +236,12 @@ add_filter(
 			return get_template_directory() . '/menu.php';
 		}
 		return $path;
+	}
+);
+
+add_action(
+	'login_enqueue_scripts',
+	function() {
+		wp_enqueue_style( 'feeder-login', get_stylesheet_directory_uri() . '/login.css' );
 	}
 );

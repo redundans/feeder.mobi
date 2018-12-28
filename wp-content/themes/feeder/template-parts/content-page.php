@@ -14,18 +14,9 @@
 		<?php the_title( '<h1>', '</h1>' ); ?>
 	</header><!-- .entry-header -->
 
-	<?php feeder_wp_post_thumbnail(); ?>
-
 	<div>
 		<?php
 		the_content();
-
-		wp_link_pages(
-			array(
-				'before' => '<div class="page-links">' . esc_html__( 'Pages:', 'feeder' ),
-				'after'  => '</div>',
-			)
-		);
 		?>
 	</div>
 

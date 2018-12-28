@@ -44,7 +44,8 @@
 					</td>
 					<td>
 						<strong><?php the_title(); ?></strong><br/>
-						<?php echo esc_url( $url ); ?>
+						<?php echo esc_url( $url ); ?><br/>
+						<small>Updated: <?php feeder_last_updated(); ?></small>
 					</td>
 				</tr>
 				<?php

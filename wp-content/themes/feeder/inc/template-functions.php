@@ -49,7 +49,7 @@ function feeder_delete_button() {
 }
 
 /**
- * Retur a delete button for feed lists.
+ * Return a delete button for feed lists.
  *
  * @return string.
  */
@@ -74,3 +74,12 @@ function feeder_wp_pingback_header() {
 	}
 }
 add_action( 'wp_head', 'feeder_wp_pingback_header' );
+
+
+/**
+ * Echoes the feeds last updated post meta.
+ */
+function feeder_last_updated() {
+	$last_updated = get_post_meta( get_the_ID(), 'feed_updated', true );
+	echo esc_html( ( empty( $last_updated ) ? 'never updated' : date_i18n( 'Y-m-d H:i:s', $last_updated, true ) ) );
+}

@@ -555,6 +555,7 @@ input[type="submit"] {
 	cursor: pointer;
 
 	font-weight: bolder;
+    line-height: 1.5;
 }
 
 label {
@@ -1020,6 +1021,7 @@ header#masthead > a > svg {
 --------------------------------------------------------------*/
 #content {
 	max-width: 38em;
+	width: 100%;
 	margin: auto;
 }
 
@@ -1066,6 +1068,10 @@ nav a {
 	font-size: 2em;
 	line-height: 1em;
 	margin: .25em 0 .4em 0;
+}
+
+#site-navigation .nav-content {
+	width: 100%;
 }
 
 header#masthead ul li#menunav img {

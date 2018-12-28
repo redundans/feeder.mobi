@@ -94,7 +94,7 @@ class Feeder_Scheduling {
 		$user          = wp_get_current_user();
 		$user_settings = new Feeder_Settings( $user );
 		$schedule      = $user_settings->get_setting( 'schedule' );
-		$last          = strtotime( ( 'tomorrow 08:00' === $schedule ? 'tomorrow 08:00' : 'last week 08:00' ) );
+		$last          = strtotime( ( 'tomorrow 06:00' === $schedule ? 'tomorrow 06:00' : 'last week 06:00' ) );
 		$feeds         = self::get_user_feeds( $user );
 		$chapters      = self::prepare_chapters_from_feeds( $feeds, $last );
 		$epub          = self::create_epub_from_chapters( $chapters, $user );
@@ -167,7 +167,7 @@ class Feeder_Scheduling {
 				$items       = $feed->get_items();
 
 				foreach ( $items as $item ) {
-					if ( strtotime( $item->get_date( 'Y-m-d h:i:s' ) ) > $last ) {
+					if ( strtotime( $item->get_date( 'Y-m-d H:i:s O' ) ) > $last ) {
 						$chapters[ $slug ]['title']       = $title;
 						$chapters[ $slug ]['description'] = '<h1>' . $title . '</h1>' . $description;
 
@@ -179,6 +179,9 @@ class Feeder_Scheduling {
 						);
 					}
 				}
+
+				$last_update = self::gmt_to_local_timestamp( strtotime( $items[0]->get_date( 'Y-m-d H:i:s O' ) ) );
+				update_post_meta( $feed_object->ID, 'feed_updated', $last_update );
 			}
 		}
 		return $chapters;
@@ -261,7 +264,7 @@ class Feeder_Scheduling {
 	private function get_epub_title( $user ): string {
 		$user_settings = new Feeder_Settings( $user );
 		$schedule      = $user_settings->get_setting( 'schedule' );
-		$title         = 'Your ' . ( '08:00 tomorrow' === $schedule ? 'daily' : 'weekly' ) . ' update';
+		$title         = 'Your ' . ( 'tomorrow 06:00' === $schedule ? 'daily' : 'weekly' ) . ' update';
 		return $title;
 	}
 
@@ -303,6 +306,18 @@ class Feeder_Scheduling {
 		} else {
 			return false;
 		}
+	}
+
+	/**
+	 * Translates GMT to local WordPress timestamp.
+	 *
+	 * @param int $gmt_timestamp A unix timestamp.
+	 */
+	private static function gmt_to_local_timestamp( $gmt_timestamp ) {
+		$iso_date        = date( 'Y-m-d H:i:s', $gmt_timestamp );
+		$local_timestamp = get_date_from_gmt( $iso_date, 'U' );
+
+		return $local_timestamp;
 	}
 }
 

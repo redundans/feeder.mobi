@@ -35,7 +35,7 @@
 				<?php
 				$allowed_keys = array(
 					'tomorrow 06:00'  => 'Daily',
-					'next week 08:00' => 'Weekly',
+					'next week 06:00' => 'Weekly',
 				);
 				foreach ( $allowed_keys as $key => $value ) {
 					echo ( '<option value="' . $key . '"' . ( $user_settigs->get_setting( 'schedule' ) === $key ? ' selected' : '' ) . '>' . $value . '</option>' );
