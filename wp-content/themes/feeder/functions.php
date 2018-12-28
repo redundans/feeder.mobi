@@ -247,7 +247,7 @@ add_filter(
 add_action(
 	'login_enqueue_scripts',
 	function() {
-		wp_enqueue_style( 'feeder-login', get_stylesheet_directory_uri() . '/login.css', array(), '1.0', true );
+		wp_enqueue_style( 'feeder-login', get_stylesheet_directory_uri() . '/login.css', array(), filemtime( get_template_directory() . '/login.css' ), false );
 	}
 );
 
