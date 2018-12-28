@@ -110,7 +110,7 @@ class Feeder_Feeds {
 				'post_type'      => 'feeder_feed',
 				'meta_key'       => 'url',
 				'meta_value'     => $url,
-				'author'         => $user->ID,
+				'author'         => $this->user->ID,
 			)
 		);
 		return ( 0 === $existing->post_count ? false : true );
