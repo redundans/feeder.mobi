@@ -84,7 +84,7 @@ class Feeder_Settings {
 
 				if ( isset( $_REQUEST['feeder_schedule'] ) ) {
 					// Save scheduling.
-					$value = sanitize_text_field( wp_unslash( $_REQUEST['feeder_schedule'] ) );
+					$value     = sanitize_text_field( wp_unslash( $_REQUEST['feeder_schedule'] ) );
 					$old_value = $this->set_setting( 'schedule', $value );
 					if ( ! empty( $value ) ) {
 						$this->set_setting( 'schedule', $value );

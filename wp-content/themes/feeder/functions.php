@@ -46,6 +46,7 @@ if ( ! function_exists( 'feeder_setup' ) ) :
 		register_nav_menus(
 			array(
 				'menu-private' => esc_html__( 'Private menu', 'feeder' ),
+				'menu-public'  => esc_html__( 'Public menu', 'feeder' ),
 			)
 		);
 
@@ -130,11 +131,8 @@ add_action( 'after_setup_theme', 'feeder_content_width', 0 );
  */
 function feeder_scripts() {
 	wp_enqueue_style( 'feeder-style', get_stylesheet_uri(), array(), '1.0' );
-
 	wp_enqueue_script( 'feeder-script', get_template_directory_uri() . '/js/feeder.js', array(), '1.0', true );
-
 	wp_localize_script( 'feeder-script', 'wp', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
-
 	wp_deregister_script( 'wp-embed' );
 
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
@@ -143,6 +141,9 @@ function feeder_scripts() {
 
 	// Remove styles for blocks.
 	wp_dequeue_style( 'wp-block-library' );
+
+	// Remove styles for buddypress.
+	wp_dequeue_style( 'bp-nouveau' );
 }
 add_action( 'wp_enqueue_scripts', 'feeder_scripts' );
 
@@ -244,14 +245,61 @@ add_filter(
 	}
 );
 
-add_action(
-	'login_enqueue_scripts',
-	function() {
-		wp_enqueue_style( 'feeder-login', get_stylesheet_directory_uri() . '/login.css', array(), filemtime( get_template_directory() . '/login.css' ), false );
-	}
-);
-
 // Only show admin bar for admin user.
 if ( ! current_user_can( 'manage_options' ) ) {
 	show_admin_bar( false );
 }
+
+// Add notices for theme requirements.
+add_action(
+	'admin_notices',
+	function() {
+		if ( ! function_exists( 'buddypress' ) ) {
+			echo '<div class="error"><p>' . esc_html__( 'Warning: The Feeder.mobi theme needs Buddypress to function', 'feeder' ) . '</p></div>';
+		}
+	}
+);
+
+add_action(
+	'bp_setup_nav',
+	function() {
+		global $bp;
+		$args = [
+			'name'                    => __( 'Feeds', 'feeder' ),
+			'slug'                    => 'feeds',
+			'default_subnav_slug'     => 'feeds',
+			'position'                => 50,
+			'show_for_displayed_user' => false,
+			'screen_function'         => 'feeder_feeds_user_nav_item_screen',
+			'item_css_id'             => 'feeder',
+		];
+		bp_core_new_nav_item( $args );
+	},
+	99
+);
+
+/**
+ * Adds template for member/{member}/feeds.
+ */
+function feeder_feeds_user_nav_item_screen() {
+	add_action( 'bp_template_content', 'feeder_feeds_content' );
+	bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
+}
+
+/**
+ * Prints the template for feeds.
+ */
+function feeder_feeds_content() {
+	get_template_part( 'template-parts/content', 'feeds' );
+}
+
+add_action(
+	'bp_after_member_settings_template',
+	function( $bp_settings_pending_email_notice ) {
+		if ( 'general' === bp_current_action() ) {
+			get_template_part( 'template-parts/content', 'settings' );
+		}
+	},
+	10,
+	1
+);

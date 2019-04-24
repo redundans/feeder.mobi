@@ -11,12 +11,12 @@
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 	<header>
-		<?php the_title( '<h1>', '</h1>' ); ?>
+		<h2 class="screen-heading general-settings-screen"><?php esc_html_e( 'Kindle device settings', 'feeder' ); ?></h2>
 	</header><!-- .entry-header -->
 
-	<?php
-	the_content();
+	<p><?php echo wp_kses( __( 'This settings are important for <code>Feeder.mobi</code> to be able to send the RSS feed to your device.', 'feeder' ), [ 'code' => [] ] ); ?></p>
 
+	<?php
 	$user         = wp_get_current_user();
 	$user_settigs = new Feeder_Settings( $user );
 
@@ -38,11 +38,11 @@
 					'next week 06:00' => 'Weekly',
 				);
 				foreach ( $allowed_keys as $key => $value ) {
-					echo ( '<option value="' . $key . '"' . ( $user_settigs->get_setting( 'schedule' ) === $key ? ' selected' : '' ) . '>' . $value . '</option>' );
+					echo wp_kses( '<option value="' . $key . '"' . ( $user_settigs->get_setting( 'schedule' ) === $key ? ' selected' : '' ) . '>' . $value . '</option>', [ 'option' => [ 'value' => [] ] ] );
 				}
 				?>
 			</select>
-			
+
 			<small>Last parsed <?php echo esc_html( human_time_diff( (int) $user_settigs->get_setting( 'last' ), (int) current_time( 'timestamp' ) ) ); ?> ago. Next time in <?php echo esc_html( human_time_diff( (int) $user_settigs->get_setting( 'next' ), (int) current_time( 'timestamp' ) ) ); ?>.</small>
 		</p>
 		<p>
