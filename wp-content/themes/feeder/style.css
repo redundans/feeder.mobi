@@ -142,6 +142,10 @@ p.text {
 	margin: auto;
 }
 
+#masthead {
+	margin-top: .5rem;
+}
+
 #menu,
 #menu ul {
 	display: flex;
