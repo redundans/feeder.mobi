@@ -12,11 +12,7 @@
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 	<header>
 		<?php
-		if ( is_singular() ) :
-			the_title( '<h1>', '</h1>' );
-		else :
-			the_title( '<h1><a href="' . esc_url( get_permalink() ) . '" rel="bookmark">', '</a></h1>' );
-		endif;
+		the_title( '<h1>', '</h1>' );
 
 		if ( 'post' === get_post_type() ) :
 			?>
@@ -47,6 +43,16 @@
 				get_the_title()
 			)
 		);
+		if ( ! is_singular() ) :
+			echo wp_kses(
+				'<a href="' . get_permalink() . '">' . __( 'Read more', 'feeder' ) . '</a>',
+				[
+					'a' => [
+						'href' => [],
+					],
+				]
+			);
+		endif;
 		?>
 	</div>
 </article><!-- #post-<?php the_ID(); ?> -->
