@@ -43,16 +43,6 @@
 				get_the_title()
 			)
 		);
-		if ( ! is_singular() ) :
-			echo wp_kses(
-				'<a href="' . get_permalink() . '">' . __( 'Read more', 'feeder' ) . '</a>',
-				[
-					'a' => [
-						'href' => [],
-					],
-				]
-			);
-		endif;
 		?>
 	</div>
 </article><!-- #post-<?php the_ID(); ?> -->
