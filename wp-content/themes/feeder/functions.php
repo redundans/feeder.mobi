@@ -119,9 +119,6 @@ add_action( 'after_setup_theme', 'feeder_setup' );
  * @global int $content_width
  */
 function feeder_content_width() {
-	// This variable is intended to be overruled from themes.
-	// Open WPCS issue: {@link https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards/issues/1043}.
-	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 	$GLOBALS['content_width'] = apply_filters( 'feeder_content_width', 640 );
 }
 add_action( 'after_setup_theme', 'feeder_content_width', 0 );
@@ -303,3 +300,70 @@ add_action(
 	10,
 	1
 );
+
+/**
+ * This is required such that social networks using your content will
+ * actually know that there are Open Graph tags being used to describe
+ * your WordPress content.
+ */
+add_filter(
+	'language_attributes',
+	function( $output ) {
+		return $output . '
+		xmlns="https://www.w3.org/1999/xhtml"
+		xmlns:og="https://ogp.me/ns#" 
+		xmlns:fb="http://www.facebook.com/2008/fbml"';
+	}
+);
+
+
+/**
+ * Add Open Graph Meta Info from the actual article data, or customize as necessary.
+ */
+add_action(
+	'wp_head',
+	function() {
+		global $post, $wp;
+		if ( is_singular() ) {
+			echo '<meta property="og:title" content="' . esc_html( get_the_title() ) . '"/>';
+		} else {
+			echo '<meta property="og:title" content="' . esc_html( get_bloginfo( 'name' ) ) . '"/>';
+		}
+		if ( '' !== $post->post_excerpt ) {
+			$excerpt = wp_strip_all_tags( $post->post_excerpt );
+			$excerpt = str_replace( '', "'", $excerpt );
+		} else {
+			$excerpt = get_bloginfo( 'description' );
+		}
+		echo '<meta property="og:description" content="' . esc_html( $excerpt ) . '"/>';
+		echo '<meta property="og:type" content="website"/>';
+		echo '<meta property="og:url" content="' . esc_url( home_url( add_query_arg( array( $_GET ), $wp->request ) ) ) . '"/>'; // phpcs:ignore
+		echo '<meta property="og:site_name" content="' . esc_html( get_bloginfo( 'name' ) ) . '"/>';
+
+		if ( ! has_post_thumbnail( $post->ID ) ) { // the post does not have featured image, use a default image.
+			// Create a default image on your server or an image in your media library, and insert it's URL here.
+			$default_image = 'http://example.com/image.jpg';
+			if ( get_custom_logo_src() ) {
+				$default_image = get_custom_logo_src();
+			}
+			echo '<meta property="og:image" content="' . esc_url( $default_image ) . '"/>';
+		} else {
+			$thumbnail_src = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'medium' );
+			echo '<meta property="og:image" content="' . esc_attr( $thumbnail_src[0] ) . '"/>';
+		}
+	},
+	10
+);
+
+/**
+ * Get url for ustom logo if it exists.
+ */
+function get_custom_logo_src() {
+	if ( has_custom_logo() ) {
+		$custom_logo_id = get_theme_mod( 'custom_logo' );
+		$logo_meta      = wp_get_attachment_image_src( $custom_logo_id, 'full' );
+		return $logo_meta[0];
+	} else {
+		return false;
+	}
+}
