@@ -185,6 +185,11 @@ require get_template_directory() . '/inc/class-feeder-feeds.php';
 require get_template_directory() . '/inc/class-feeder-scheduling.php';
 
 /**
+ * Feeder buddypress.
+ */
+require get_template_directory() . '/inc/class-feeder-buddypress.php';
+
+/**
  * Load Jetpack compatibility file.
  */
 if ( defined( 'JETPACK__VERSION' ) ) {
@@ -247,60 +252,6 @@ if ( ! current_user_can( 'manage_options' ) ) {
 	show_admin_bar( false );
 }
 
-// Add notices for theme requirements.
-add_action(
-	'admin_notices',
-	function() {
-		if ( ! function_exists( 'buddypress' ) ) {
-			echo '<div class="error"><p>' . esc_html__( 'Warning: The Feeder.mobi theme needs Buddypress to function', 'feeder' ) . '</p></div>';
-		}
-	}
-);
-
-add_action(
-	'bp_setup_nav',
-	function() {
-		global $bp;
-		$args = [
-			'name'                    => __( 'Feeds', 'feeder' ),
-			'slug'                    => 'feeds',
-			'default_subnav_slug'     => 'feeds',
-			'position'                => 50,
-			'show_for_displayed_user' => false,
-			'screen_function'         => 'feeder_feeds_user_nav_item_screen',
-			'item_css_id'             => 'feeder',
-		];
-		bp_core_new_nav_item( $args );
-	},
-	99
-);
-
-/**
- * Adds template for member/{member}/feeds.
- */
-function feeder_feeds_user_nav_item_screen() {
-	add_action( 'bp_template_content', 'feeder_feeds_content' );
-	bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
-}
-
-/**
- * Prints the template for feeds.
- */
-function feeder_feeds_content() {
-	get_template_part( 'template-parts/content', 'feeds' );
-}
-
-add_action(
-	'bp_after_member_settings_template',
-	function( $bp_settings_pending_email_notice ) {
-		if ( 'general' === bp_current_action() ) {
-			get_template_part( 'template-parts/content', 'settings' );
-		}
-	},
-	10,
-	1
-);
-
 /**
  * This is required such that social networks using your content will
  * actually know that there are Open Graph tags being used to describe
@@ -350,4 +301,16 @@ add_action(
 		}
 	},
 	10
+);
+
+/**
+ * Allow uploading .MOBI and .EPUB files.
+ */
+add_filter(
+	'upload_mimes',
+	function( $existing_mimes ) {
+		$existing_mimes['mobi'] = 'application/x-mobipocket-ebook';
+		$existing_mimes['epub'] = 'application/epub+zip';
+		return $existing_mimes;
+	}
 );

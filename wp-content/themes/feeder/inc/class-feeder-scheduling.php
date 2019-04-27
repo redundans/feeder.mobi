@@ -58,8 +58,8 @@ class Feeder_Scheduling {
 	public function run_scheduling() {
 		$user_query = new WP_User_Query(
 			array(
-				'meta_key'     => 'feeder_next',
-				'meta_value'   => current_time( 'timestamp' ),
+				'meta_key'     => 'feeder_next', // phpcs:ignore
+				'meta_value'   => current_time( 'timestamp' ), // phpcs:ignore
 				'meta_compare' => '<',
 			)
 		);
@@ -100,6 +100,8 @@ class Feeder_Scheduling {
 		$epub          = self::create_epub_from_chapters( $chapters, $user );
 		$mobi          = self::create_mobi_from_epub( $epub );
 		$mail          = self::mail_mobi( $user, $mobi );
+		$attachement   = self::feeder_handle_upload_from_path( $mobi, true );
+		$notification  = self::notify_user( $user, $attachement );
 
 		echo wp_json_encode(
 			array(
@@ -277,7 +279,7 @@ class Feeder_Scheduling {
 	public static function create_mobi_from_epub( $epub ) {
 		if ( file_exists( $epub ) ) {
 			$mobi   = str_replace( '.epub', '.mobi', $epub );
-			$output = shell_exec( '/usr/bin/kindlegen ' . $epub . ' -o ' . basename( $mobi ) );
+			$output = shell_exec( 'kindlegen ' . $epub . ' -o ' . basename( $mobi ) ); // phpcs:ignores
 			return $mobi;
 		}
 		return false;
@@ -319,6 +321,99 @@ class Feeder_Scheduling {
 
 		return $local_timestamp;
 	}
+
+	/**
+	 * Takes a path to a file, simulates an upload and passes it through wp_handle_upload. If $add_to_media
+	 * is set to true (default), the file will appear under Media in the dashboard. Otherwise, it's hidden,
+	 * but stored in the uploads folder.
+	 *
+	 * Return Values: Similar to wp_handle_upload, but with attachment_id:
+	 *  - Success: Returns an array including file, url, type, attachment_id.
+	 *  - Failure: Returns an array with the key "error" and a value including the error message.
+	 *
+	 * From : https://gist.github.com/RadGH/3b544c827193927d1772s
+	 *
+	 * @param string $path The path to the file.
+	 * @param bool   $add_to_media If the media shall be visable in the media.
+	 *
+	 * @return array
+	 */
+	public function feeder_handle_upload_from_path( $path, $add_to_media = true ) {
+		if ( ! file_exists( $path ) ) {
+			return false;
+		}
+		$filename        = basename( $path );
+		$filename_no_ext = pathinfo( $path, PATHINFO_FILENAME );
+		$extension       = pathinfo( $path, PATHINFO_EXTENSION );
+
+		// Simulate uploading a file through $_FILES. We need a temporary file for this.
+		$tmp      = tmpfile();
+		$tmp_path = stream_get_meta_data( $tmp )['uri'];
+		fwrite( $tmp, file_get_contents( $path ) );
+		fseek( $tmp, 0 ); // If we don't do this, WordPress thinks the file is empty.
+
+		$fake_file = [
+			'name'     => $filename,
+			'type'     => 'image/' . $extension,
+			'tmp_name' => $tmp_path,
+			'error'    => UPLOAD_ERR_OK,
+			'size'     => filesize( $path ),
+		];
+
+		// Trick is_uploaded_file() by adding it to the superglobal.
+		$_FILES[ basename( $tmp_path ) ] = $fake_file;
+		// Handle the upload.
+		$result = wp_handle_upload(
+			$fake_file,
+			[
+				'test_form' => false,
+				'action'    => 'local',
+			]
+		);
+		fclose( $tmp ); // Close tmp file.
+		@unlink( $tmp_path ); // Delete the tmp file. Closing it should also delete it, so hide any warnings with @.
+		unset( $_FILES[ basename( $tmp_path ) ] ); // Clean up our $_FILES mess.
+		$result['attachment_id'] = 0;
+
+		if ( empty( $result['error'] ) && $add_to_media ) {
+			$args   = [
+				'post_title'     => $filename_no_ext,
+				'post_content'   => '',
+				'post_status'    => 'publish',
+				'post_mime_type' => $result['type'],
+			];
+			$result = wp_insert_attachment( $args, $result['file'] );
+			if ( is_wp_error( $result['attachment_id'] ) ) {
+				$result = false;
+			} else {
+				$attach_data = wp_generate_attachment_metadata( $result['attachment_id'], $result['file'] );
+				wp_update_attachment_metadata( $result['attachment_id'], $attach_data );
+			}
+		}
+		return $result;
+	}
+
+	/**
+	 * Send notification to user.
+	 *
+	 * @param WP_User $user A user object.
+	 * @param int     $attachement A attachement id.
+	 */
+	public function notify_user( $user, $attachement ) {
+		if ( $attachement ) {
+			bp_notifications_add_notification(
+				[
+					'user_id'          => $user->ID,
+					'item_id'          => $attachement,
+					'component_name'   => 'feeder',
+					'component_action' => 'feeder_sent_feed',
+					'date_notified'    => bp_core_current_time(),
+					'is_new'           => 1,
+				]
+			);
+		}
+	}
 }
 
 new Feeder_Scheduling();
+

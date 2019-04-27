@@ -92,8 +92,9 @@ class Feeder_Feeds {
 	private function add_feed( $url ) {
 		$feed = $this->get_feed_from_url( $url );
 		if ( $feed ) {
-			$result = $this->insert_feed( $feed );
+			return $this->insert_feed( $feed );
 		}
+		return false;
 	}
 
 	/**
@@ -108,8 +109,8 @@ class Feeder_Feeds {
 			array(
 				'posts_per_page' => -1,
 				'post_type'      => 'feeder_feed',
-				'meta_key'       => 'url',
-				'meta_value'     => $url,
+				'meta_key'       => 'url', // phpcs:ignore
+				'meta_value'     => $url, // phpcs:ignore
 				'author'         => $this->user->ID,
 			)
 		);
@@ -150,29 +151,50 @@ class Feeder_Feeds {
 	 * Handle posted request data if it comes from Feeder User Settings forms.
 	 */
 	public function process_post() {
-		if ( isset( $_REQUEST['_wpnonce'] ) ) {
-			$retrieved_nonce = sanitize_key( $_REQUEST['_wpnonce'] );
+		// Continue only if wp nounce sums upp with feeder_settings.
+		if ( isset( $_POST['feeder_feed_nounce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['feeder_feed_nounce'] ) ), 'feeder_feed_add' ) ) {
 
-			// Continue only if wp nounce sums upp with feeder_settings.
-			if ( wp_verify_nonce( $retrieved_nonce, 'feeder_feeds' ) ) {
-				if ( isset( $_REQUEST['feeder_url'] ) ) {
-					$url = esc_url_raw( wp_unslash( $_REQUEST['feeder_url'] ) );
-					$this->add_feed( $url );
+			if ( isset( $_REQUEST['feeder_url'] ) ) {
+				$url  = esc_url_raw( wp_unslash( $_REQUEST['feeder_url'] ) );
+				$feed = $this->add_feed( $url );
+				if ( $feed ) {
+					bp_notifications_add_notification(
+						[
+							'user_id'          => $this->user->ID,
+							'item_id'          => $feed,
+							'component_name'   => 'feeder',
+							'component_action' => 'feeder_add_feed',
+							'date_notified'    => bp_core_current_time(),
+							'is_new'           => 1,
+						]
+					);
 				}
 			}
+		}
 
-			// Continue only if wp nounce sums upp with feeder_delete.
-			if ( wp_verify_nonce( $retrieved_nonce, 'feeder_delete' ) ) {
-				if ( isset( $_REQUEST['feeder_delete'] ) ) {
-					$feed_ids = wp_unslash( $_REQUEST['feeder_delete'] );
-					foreach ( $feed_ids as $feed_id ) {
-						$feed = get_post( $feed_id );
-						if ( (int) $feed->post_author === (int) $this->user->ID ) {
-							wp_trash_post( $feed->ID );
-							wp_redirect( get_permalink() );
-						} else {
-							$this->add_error_message( esc_html__( 'No rights to delete feed.', 'feeder' ) );
-						}
+		// Continue only if wp nounce sums upp with feeder_delete.
+		if ( isset( $_POST['feeder_feed_nounce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['feeder_feed_nounce'] ) ), 'feeder_feed_delete' ) ) {
+
+			if ( isset( $_REQUEST['feeder_delete'] ) ) {
+				$feed_ids = array_map( 'sanitize_text_field', wp_unslash( $_POST['feeder_delete'] ) );
+
+				foreach ( $feed_ids as $feed_id ) {
+					$feed = get_post( $feed_id );
+					if ( (int) $feed->post_author === (int) $this->user->ID ) {
+						wp_trash_post( $feed->ID );
+						bp_notifications_add_notification(
+							[
+								'user_id'          => $this->user->ID,
+								'item_id'          => $feed_id,
+								'component_name'   => 'feeder',
+								'component_action' => 'feeder_delete_feed',
+								'date_notified'    => bp_core_current_time(),
+								'is_new'           => 1,
+							]
+						);
+						wp_safe_redirect( get_permalink() );
+					} else {
+						$this->add_error_message( esc_html__( 'No rights to delete feed.', 'feeder' ) );
 					}
 				}
 			}

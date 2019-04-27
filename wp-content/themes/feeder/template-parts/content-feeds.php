@@ -20,7 +20,7 @@
 
 	<div id="feeds">
 		<form id="deleteform" method="post" action="<?php echo esc_url( $current_url ); ?>">
-			<?php wp_nonce_field( 'feeder_delete' ); ?>
+			<?php wp_nonce_field( 'feeder_feed_delete', 'feeder_feed_nounce' ); ?>
 
 		<?php
 		global $wp;
@@ -67,9 +67,9 @@
 		<form id="feedsform" method="post" action="<?php echo esc_url( $current_url ); ?>">
 			<h2><?php esc_html_e( 'Add a feed', 'feeder' ); ?></h2>
 			<p>
-				<?php esc_html_e( 'Start subscribing to a rss by entering the url to the Atom/RSS.', 'feeder' ) ?>
+				<?php esc_html_e( 'Start subscribing to a rss by entering the url to the Atom/RSS and click + Add feed.', 'feeder' ); ?>
 			</p>
-			<?php wp_nonce_field( 'feeder_feeds' ); ?>
+			<?php wp_nonce_field( 'feeder_feed_add', 'feeder_feed_nounce' ); ?>
 			<p>
 				<input type="url" placeholder="http://" id="feeder_url" name="feeder_url" />
 			</p>

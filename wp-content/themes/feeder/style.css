@@ -134,6 +134,10 @@ p.text {
 	font-size: 90%;
 }
 
+.bp-screen-reader-text {
+	display: none;
+}
+
 #page {
 	display: flex;
 	flex-direction: column;
@@ -209,29 +213,41 @@ p.text {
 #primary table {
 	width: 100%;
 	border-spacing: 0px;
+	border: 1px solid #eee;
+	border-top: none;
 }
 
 #primary table tbody {
-	display: flex;
-	flex-direction: column;
-	border: 1px solid #eee;
-	border-top: none;
 	padding: 0;
+	text-size: 90%;
 }
 
 #primary table tbody tr {
-	display: flex;
-	flex-direction: row;
-    border-top: 1px solid #eee;
-}
-
-#primary table tbody tr:first-child {
-	border: none;
-
 }
 
 #primary table tbody tr td {
 	padding: 1rem 0 1rem 1rem;
+    border-top: 1px solid #eee;
+}
+
+#primary table tbody tr td:last-child {
+	padding: 1rem 1rem 1rem 1rem;
+}
+
+#primary table thead tr th {
+	padding: 1rem 0 1rem 1rem;
+}
+
+#primary table thead tr th:last-child {
+	padding: 1rem 1rem 1rem 1rem;
+}
+
+#primary .notification-actions .bp-screen-reader-text {
+	display: inline-block !important;
+}
+
+#primary table label {
+	margin: 0;
 }
 
 #item-header {
