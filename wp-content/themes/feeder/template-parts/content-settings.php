@@ -38,7 +38,7 @@
 					'next week 06:00' => 'Weekly',
 				);
 				foreach ( $allowed_keys as $key => $value ) {
-					echo wp_kses( '<option value="' . $key . '"' . ( $user_settigs->get_setting( 'schedule' ) === $key ? ' selected' : '' ) . '>' . $value . '</option>', [ 'option' => [ 'value' => [] ] ] );
+					echo wp_kses( '<option value="' . $key . '"' . ( $user_settigs->get_setting( 'schedule' ) === $key ? ' selected' : '' ) . '>' . $value . '</option>', [ 'option' => [ 'value' => [], 'selected' => [] ] ] );
 				}
 				?>
 			</select>
