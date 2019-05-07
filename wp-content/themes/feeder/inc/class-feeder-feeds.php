@@ -40,12 +40,12 @@ class Feeder_Feeds {
 	 */
 	public function get_feeds() {
 		$args = array(
-			'author'        => $this->user->ID,
-			'post_type'     => $this->prefix . 'feed',
-			'post_status'   => 'publish',
-			'post_per_page' => -1,
-			'order_by'      => 'date',
-			'order'         => 'ASC',
+			'author'         => $this->user->ID,
+			'post_type'      => $this->prefix . 'feed',
+			'post_status'    => 'publish',
+			'posts_per_page' => -1,
+			'order_by'       => 'date',
+			'order'          => 'ASC',
 		);
 		return new WP_Query( $args );
 	}
