@@ -1,6 +1,6 @@
 <?php
 /**
- * Feeder Buttypress Functions
+ * Feeder Buddypress Functions
  *
  * @package feeder
  */

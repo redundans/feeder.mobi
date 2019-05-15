@@ -190,6 +190,11 @@ require get_template_directory() . '/inc/class-feeder-scheduling.php';
 require get_template_directory() . '/inc/class-feeder-buddypress.php';
 
 /**
+ * Feeder dithering.
+ */
+require get_template_directory() . '/inc/class-feeder-dither.php';
+
+/**
  * Load Jetpack compatibility file.
  */
 if ( defined( 'JETPACK__VERSION' ) ) {
