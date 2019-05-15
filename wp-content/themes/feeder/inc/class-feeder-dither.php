@@ -53,7 +53,7 @@ class Feeder_Dither {
 			} elseif ( $height > 920 ) {
 				$imagick->thumbnailImage( null, 640, false );
 			}
-			$imagick->quantizeImage( 2, Imagick::COLORSPACE_GRAY, 10, false, true );
+			$imagick->quantizeImage( 2, Imagick::COLORSPACE_GRAY, 0, true, true );
 			$imagick->setImageFormat( 'png' );
 			header( 'Content-type: image/png' );
 			echo $imagick->getImageBlob();
