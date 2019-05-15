@@ -53,9 +53,9 @@ class Feeder_Dither {
 			} elseif ( $height > 920 ) {
 				$imagick->thumbnailImage( null, 640, false );
 			}
-			//$imagick->quantizeImage( 2, Imagick::COLORSPACE_GRAY, 0, true, true );
-			$imagick->modulateImage( 100, 0, 100 );
-			$imagick->orderedPosterizeImage( 'o4x4,3,3', Imagick::CHANNEL_GRAY );
+			$imagick->quantizeImage( 2, Imagick::COLORSPACE_GRAY, 0, true, true );
+			//$imagick->modulateImage( 100, 0, 100 );
+			//$imagick->orderedPosterizeImage( 'o4x4,3,3', Imagick::CHANNEL_GRAY );
 			$imagick->setImageFormat( 'png' );
 			header( 'Content-type: image/png' );
 			echo $imagick->getImageBlob();
