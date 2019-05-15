@@ -54,6 +54,7 @@ class Feeder_Dither {
 				$imagick->thumbnailImage( null, 640, false );
 			}
 			//$imagick->quantizeImage( 2, Imagick::COLORSPACE_GRAY, 0, true, true );
+			$imagick->setImageColorspace( Imagick::COLORSPACE_GRAY );
 			$imagick->orderedPosterizeImage( 'o4x4,3,3' );
 			$imagick->setImageFormat( 'png' );
 			header( 'Content-type: image/png' );
