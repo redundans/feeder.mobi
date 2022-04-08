@@ -1,38 +1,26 @@
-# This is a template .gitignore file for git-managed WordPress projects.
-#
-# Fact: you don't want WordPress core files, or your server-specific
-# configuration files etc., in your project's repository. You just don't.
-#
-# Solution: stick this file up your repository root (which it assumes is
-# also the WordPress root directory) and add exceptions for any plugins,
-# themes, and other directories that should be under version control.
-#
-# See the comments below for more info on how to add exceptions for your
-# content. Or see git's documentation for more info on .gitignore files:
-# http://kernel.org/pub/software/scm/git/docs/gitignore.html
+# Application
+web/app/plugins/*
+!web/app/plugins/.gitkeep
+web/app/mu-plugins/*/
+web/app/upgrade
+web/app/uploads/*
+!web/app/uploads/.gitkeep
+web/app/cache/*
 
-# Ignore everything in the root except the "wp-content" directory.
-/*
-!.gitignore
-!wp-content/
+# WordPress
+web/wp
+web/.htaccess
 
-# Ignore everything in the "wp-content" directory, except the "plugins"
-# and "themes" directories.
-wp-content/*
-!wp-content/mu-plugins/
-!wp-content/themes/
+# Logs
+*.log
 
-# Ignore everything in the "plugins" directory, except the plugins you
-# specify (see the commented-out examples for hints on how to do this.)
-wp-content/mu-plugins/*
-!wp-content/mu-plugins/bedrock-autoloader.php
-!wp-content/mu-plugins/action-scheduler/
-!wp-content/mu-plugins/a-faster-load-textdomain.php
+# Dotenv
+.env
+.env.*
+!.env.example
 
-# Ignore everything in the "themes" directory, except the themes you
-# specify (see the commented-out example for a hint on how to do this.)
-wp-content/themes/*
-!wp-content/themes/feeder/
+# Composer
+/vendor
 
-# Others
-.DS_Store
+# WP-CLI
+wp-cli.local.yml
