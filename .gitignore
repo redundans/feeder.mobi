@@ -1,11 +1,31 @@
 # Application
-web/app/plugins/*
+web/app/themes
+!web/app/themes/.gitkeep
+web/app/plugins
+web/app/mu-plugins
+web/app/languages
+web/app/uploads
 !web/app/plugins/.gitkeep
 web/app/mu-plugins/*/
 web/app/upgrade
 web/app/uploads/*
 !web/app/uploads/.gitkeep
 web/app/cache/*
+web/index.php
+web/wp-config.php
+
+# Bedrock
+CHANGELOG.md
+LICENSE.md
+phpcs.xml
+wp-cli.yml
+composer.lock
+config/
+
+# Feeder
+!web/app/themes/feeder
+web/app/themes/feeder/libraries
+web/app/themes/feeder/vendor
 
 # WordPress
 web/wp
@@ -28,3 +48,4 @@ wp-cli.local.yml
 # MacOS
 .DS_Store
 .DS_Store?
+.nova
