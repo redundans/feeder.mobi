@@ -1,0 +1,21 @@
+{
+    "name": "redundans/feeder",
+    "type": "wordpress-theme",
+    "license": "GPL-3.0-or-later",
+    "description": "WordPress theme for feeder forked from jacklenox/susty",
+    "homepage": "https://feeder.mobi/",
+    "keywords": ["wordpress"],
+    "repositories": [
+        { "type": "vcs", "url": "https://github.com/Daniel-KM/PHPePub" }
+    ],
+    "require": {
+        "composer/installers": "^2.1",
+        "grandt/phpepub": ">=4.0.3",
+        "simplepie/simplepie": "1.5.2"
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/installers": true
+        }
+    }
+}
