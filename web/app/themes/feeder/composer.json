@@ -10,8 +10,8 @@
     ],
     "require": {
         "composer/installers": "^2.1",
-        "grandt/phpepub": ">=4.0.3",
-        "simplepie/simplepie": "1.5.2"
+        "grandt/phpepub": "dev-master",
+        "simplepie/simplepie": "1.5.8"
     },
     "config": {
         "allow-plugins": {

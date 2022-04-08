@@ -19,7 +19,7 @@
 	?>
 
 	<div id="feeds">
-		<form id="deleteform" method="post" action="<?php echo esc_url( $current_url ); ?>">
+		<form id="deleteform" method="post" action="">
 			<?php wp_nonce_field( 'feeder_feed_delete', 'feeder_feed_nounce' ); ?>
 
 		<?php

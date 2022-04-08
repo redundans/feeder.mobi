@@ -22,7 +22,7 @@
 
 	?>
 
-	<form id="settingsform" method="post" action="<?php echo esc_url( $current_url ); ?>">
+	<form id="settingsform" method="post" action="">
 
 		<?php wp_nonce_field( 'feeder_settings' ); ?>
 		<p>
@@ -74,36 +74,4 @@
 	</header>
 	
 	<button onClick="getTestMobi()">Test schedule</button>
-<!--
-	<br/>
-	<br/>
-	<br/>
-
-	<header>
-		<h2 class="screen-heading general-settings-screen"><?php esc_html_e( 'Adobe encryption settings', 'feeder' ); ?></h2>
-	</header>
-
-	<p><?php echo wp_kses( __( 'The experimental function for removing Adove DRM from epub books, before converting them to MOBI and sending it to your device, needs a adobe encryption key from the same account that created the epub with Adobe Digital Editions.', 'feeder' ), [ 'code' => [] ] ); ?></p>
-	
-	<?php
-		$adobe_key           = $user_settigs->get_setting( 'adobe_key' );
-		$adobe_key_file      = get_attached_file( $adobe_key, true );
-		$adobe_key_file_only = basename( $adobe_key_file );
-		if ( ! empty( $adobe_key_file_only ) ) {
-			echo "<p>Existing file: <em>{$adobe_key_file_only}</em></p>";
-		}
-	?>
-
-	<form method="post" enctype="multipart/form-data">
-		<?php wp_nonce_field( 'adobe_settings' ); ?>
-
-		<p>
-			<label for="test_upload_pdf"><?php echo esc_html__( 'Upload adobe encryption key', 'feeder' ); ?></label>
-        	<input type='file' id='test_upload_pdf' name='test_upload_pdf'></input>
-    	</p>
-    	<p>
-			<input type="submit" value="<?php echo esc_html__( 'Upload', 'feeder' ); ?>">
-		</p>
-    </form>
-	-->
 </article><!-- #post-<?php the_ID(); ?> -->

@@ -7,6 +7,7 @@
 
 use PHPePub\Core\EPub;
 use PHPePub\Helpers\CalibreHelper;
+use function Env\env;
 
 /**
  * This class handles all scheduling.
@@ -31,6 +32,11 @@ class Feeder_Scheduling {
 	 * Instantiate class variables.
 	 */
 	public function __construct() {
+		/**
+		 * Kindle gen binary path.
+		 */
+		define( 'KINDLEGEN', env( 'KINDLEGEN' ) ?: '/usr/local/bin/kindlegen' );
+		
 		add_action( 'init', array( $this, 'setup_scheduling' ) );
 		add_action( 'feeder_run_single_schedule', array( $this, 'run_single_schedule' ), 10, 1 );
 		add_action( 'feeder_run_scheduling', array( $this, 'run_scheduling' ) );
@@ -202,7 +208,7 @@ class Feeder_Scheduling {
 		}
 
 		$upload_dir = wp_upload_dir();
-		$title      = self::get_epub_title( $user );
+		$title      = 'test';
 		$file_name  = 'latest_book.epub';
 		$file_dir   = $upload_dir['basedir'] . '/' . $user->user_login;
 		if ( ! file_exists( $file_dir ) ) {
@@ -263,7 +269,7 @@ class Feeder_Scheduling {
 	 * @param WP_User $user An epub file url.
 	 * @return string
 	 */
-	private function get_epub_title( $user ): string {
+	public static function get_epub_title( $user ): string {
 		$user_settings = new Feeder_Settings( $user );
 		$schedule      = $user_settings->get_setting( 'schedule' );
 		$title         = 'Your ' . ( 'tomorrow 06:00' === $schedule ? 'daily' : 'weekly' ) . ' update';
@@ -279,7 +285,7 @@ class Feeder_Scheduling {
 	public static function create_mobi_from_epub( $epub ) {
 		if ( file_exists( $epub ) ) {
 			$mobi   = str_replace( '.epub', '.mobi', $epub );
-			$output = shell_exec( '/usr/bin/kindlegen ' . $epub . ' -o ' . basename( $mobi ) ); // phpcs:ignores
+			$output = shell_exec( KINDLEGEN . ' ' . $epub . ' -o ' . basename( $mobi ) ); // phpcs:ignores
 			return $mobi;
 		}
 		return false;
@@ -338,7 +344,7 @@ class Feeder_Scheduling {
 	 *
 	 * @return array
 	 */
-	public function feeder_handle_upload_from_path( $path, $add_to_media = true ) {
+	public static function feeder_handle_upload_from_path( $path, $add_to_media = true ) {
 		if ( ! file_exists( $path ) ) {
 			return false;
 		}
@@ -399,7 +405,7 @@ class Feeder_Scheduling {
 	 * @param WP_User $user A user object.
 	 * @param int     $attachement A attachement id.
 	 */
-	public function notify_user( $user, $attachement ) {
+	public static function notify_user( $user, $attachement ) {
 		if ( $attachement ) {
 			bp_notifications_add_notification(
 				[

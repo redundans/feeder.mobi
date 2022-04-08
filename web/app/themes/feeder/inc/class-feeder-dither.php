@@ -30,7 +30,8 @@ class Feeder_Dither {
 					$this,
 					'dither_image',
 				],
-			)
+				'permission_callback' => '__return_true'
+			),
 		);
 	}
 

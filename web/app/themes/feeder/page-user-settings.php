@@ -19,8 +19,6 @@ get_header();
 
 			get_template_part( 'template-parts/content', 'settings' );
 
-			get_template_part( 'template-parts/content', 'feeds' );
-
 		endwhile; // End of the loop.
 
 		?>
