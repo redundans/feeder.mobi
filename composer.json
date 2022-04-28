@@ -55,7 +55,7 @@
     "wpackagist-plugin/spinupwp": "^1.4",
     "wpackagist-plugin/limit-login-attempts-reloaded": "^2.25",
     "deliciousbrains-plugin/wp-migrate-db-pro": "*",
-    "humanmade/aws-ses-wp-mail": "dev-master",
+    "humanmade/aws-ses-wp-mail": "2.0.1-alpha",
     "wpackagist-plugin/wp-mail-log": "^0.3.0"
   },
   "require-dev": {
