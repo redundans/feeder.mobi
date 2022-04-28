@@ -32,6 +32,10 @@
     {
       "type": "vcs",
       "url": "git@github.com:redundans/aws-ses-wp-mail"
+    },
+    {
+      "type":"composer",
+      "url":"https://composer.deliciousbrains.com"
     }
   ],
   "require": {
@@ -50,6 +54,7 @@
     "wpackagist-plugin/disable-emails": "^1.8",
     "wpackagist-plugin/spinupwp": "^1.4",
     "wpackagist-plugin/limit-login-attempts-reloaded": "^2.25",
+    "deliciousbrains-plugin/wp-migrate-db-pro": "*",
     "humanmade/aws-ses-wp-mail": "dev-master"
   },
   "require-dev": {
