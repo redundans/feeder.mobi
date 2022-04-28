@@ -43,6 +43,14 @@ if (file_exists($root_dir . '/.env')) {
 }
 
 /**
+ * Set AWS keys from .env file.
+ */
+Config::define('AWS_SES_WP_MAIL_REGION', env('AWS_SES_WP_MAIL_REGION') ?: '');
+Config::define('AWS_SES_WP_MAIL_KEY', env('AWS_SES_WP_MAIL_KEY') ?: '');
+Config::define('AWS_SES_WP_MAIL_SECRET', env('AWS_SES_WP_MAIL_SECRET') ?: '');
+Config::define('AWS_SES_WP_MAIL_CONFIG_SET', env('AWS_SES_WP_MAIL_CONFIG_SET') ?: '');
+
+/**
  * Set up our global environment constant and load its config first
  * Default: production
  */
