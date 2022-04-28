@@ -106,8 +106,6 @@ class Feeder_Scheduling {
 		$epub          = self::create_epub_from_chapters( $chapters, $user );
 		$mobi          = self::create_mobi_from_epub( $epub );
 		$mail          = self::mail_mobi( $user, $mobi );
-		$attachement   = self::feeder_handle_upload_from_path( $mobi, true );
-		$notification  = self::notify_user( $user, $attachement );
 
 		echo wp_json_encode(
 			array(
@@ -388,12 +386,12 @@ class Feeder_Scheduling {
 				'post_status'    => 'publish',
 				'post_mime_type' => $result['type'],
 			];
-			$result = wp_insert_attachment( $args, $result['file'] );
-			if ( is_wp_error( $result['attachment_id'] ) ) {
+			$attachment = wp_insert_attachment( $args, $result['file'] );
+			if ( is_wp_error( $attachment ) ) {
 				$result = false;
 			} else {
-				$attach_data = wp_generate_attachment_metadata( $result['attachment_id'], $result['file'] );
-				wp_update_attachment_metadata( $result['attachment_id'], $attach_data );
+				$attach_data = wp_generate_attachment_metadata( $attachment, $result['file'] );
+				wp_update_attachment_metadata( $attachment, $attach_data );
 			}
 		}
 		return $result;

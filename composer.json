@@ -42,7 +42,7 @@
     "roots/wp-password-bcrypt": "1.1.0",
     "woocommerce/action-scheduler": "^3.4",
     "wpackagist-plugin/buddypress": "^10.2",
-    "wpackagist-plugin/disable-comments": "^2.3",
+    "wpackagist-plugin/disable-comments": "^2.3.5",
     "wpackagist-plugin/disable-emails": "^1.8"
   },
   "require-dev": {

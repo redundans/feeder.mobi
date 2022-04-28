@@ -1,0 +1,77 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.custom-logo {
+	@apply w-24;
+}
+
+p {
+	@apply my-3;
+}
+
+p:first-of-type {
+	@apply mt-0;
+}
+
+p:last-of-type {
+	@apply mb-0;
+}
+
+article a {
+	@apply underline;
+}
+
+article a:hover {
+	@apply no-underline;
+}
+
+#item-header {
+	@apply flex flex-row gap-6 border border-slate-200 p-6 items-center;
+}
+
+#item-header-avatar {
+	@apply w-16;
+}
+
+.bp-wrap {
+	@apply my-12;
+}
+
+#subnav,
+.wp-cancel-pw,
+.wp-hide-pw {
+	display: none !important;
+}
+
+.screen-heading {
+	@apply text-3xl font-bold my-3;
+}
+
+.wp-pwd {
+	@apply my-6;
+}
+
+#your-profile {
+	@apply my-6;
+}
+
+label {
+	@apply block my-3 font-bold;
+}
+
+input[type=text],
+input[type=email],
+input[type=password] {
+	@apply border border-slate-200 p-3 w-full font-mono text-sm;
+}
+
+.info,
+.bp-feedback {
+	@apply my-3 text-base;
+}
+
+.bp-wrap button,
+input[type=submit] {
+	@apply bg-black text-white px-3 py-2 cursor-pointer;	
+}

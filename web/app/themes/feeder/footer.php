@@ -11,7 +11,8 @@
 
 	</div>
 </div>
-<footer>
+<footer class="container mx-auto my-12">
+    <p>No Ads, No Tracking and No Fees!</p>
 </footer>
 
 <?php wp_footer(); ?>

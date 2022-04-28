@@ -112,22 +112,15 @@ endif;
 add_action( 'after_setup_theme', 'feeder_setup' );
 
 /**
- * Set the content width in pixels, based on the theme's design and stylesheet.
- *
- * Priority 0 to make it available to lower priority callbacks.
- *
- * @global int $content_width
- */
-function feeder_content_width() {
-	$GLOBALS['content_width'] = apply_filters( 'feeder_content_width', 640 );
-}
-add_action( 'after_setup_theme', 'feeder_content_width', 0 );
-
-/**
  * Enqueue scripts and styles.
  */
 function feeder_scripts() {
-	wp_enqueue_style( 'feeder-style', get_stylesheet_uri(), array(), '1.0' );
+	wp_enqueue_style(
+		'feeder-style',
+		get_template_directory_uri() . '/dist/feeder.min.css',
+		array(),
+		fileatime( get_template_directory() . '/dist/feeder.min.css' )
+	);
 	wp_enqueue_script( 'feeder-script', get_template_directory_uri() . '/js/feeder.js', array(), '1.0', true );
 	wp_localize_script( 'feeder-script', 'wp', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
 	wp_deregister_script( 'wp-embed' );
@@ -194,13 +187,6 @@ require get_template_directory() . '/inc/class-feeder-buddypress.php';
  */
 require get_template_directory() . '/inc/class-feeder-dither.php';
 
-/**
- * Load Jetpack compatibility file.
- */
-if ( defined( 'JETPACK__VERSION' ) ) {
-	require get_template_directory() . '/inc/jetpack.php';
-}
-
 remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
 remove_action( 'wp_print_styles', 'print_emoji_styles' );
 
@@ -242,16 +228,6 @@ add_filter(
 	}
 );
 
-add_filter(
-	'template_include',
-	function( $path ) {
-		if ( get_query_var( 'menu' ) ) {
-			return get_template_directory() . '/menu.php';
-		}
-		return $path;
-	}
-);
-
 // Only show admin bar for admin user.
 if ( ! current_user_can( 'manage_options' ) ) {
 	show_admin_bar( false );
@@ -272,42 +248,6 @@ add_filter(
 	}
 );
 
-
-/**
- * Add Open Graph Meta Info from the actual article data, or customize as necessary.
- */
-add_action(
-	'wp_head',
-	function() {
-		global $post, $wp;
-		if ( is_singular() ) {
-			echo '<meta property="og:title" content="' . esc_html( get_the_title() ) . '"/>';
-		} else {
-			echo '<meta property="og:title" content="' . esc_html( get_bloginfo( 'name' ) ) . '"/>';
-		}
-		if ( '' !== $post->post_excerpt ) {
-			$excerpt = wp_strip_all_tags( $post->post_excerpt );
-			$excerpt = str_replace( '', "'", $excerpt );
-		} else {
-			$excerpt = get_bloginfo( 'description' );
-		}
-		echo '<meta property="og:description" content="' . esc_html( $excerpt ) . '"/>';
-		echo '<meta property="og:type" content="website"/>';
-		echo '<meta property="og:url" content="' . esc_url( home_url( add_query_arg( array( $_GET ), $wp->request ) ) ) . '"/>'; // phpcs:ignore
-		echo '<meta property="og:site_name" content="' . esc_html( get_bloginfo( 'name' ) ) . '"/>';
-
-		if ( ! has_post_thumbnail( $post->ID ) ) { // the post does not have featured image, use a default image.
-			// Create a default image on your server or an image in your media library, and insert it's URL here.
-			$default_image = get_template_directory_uri() . '/images/feeder.png';
-			echo '<meta property="og:image" content="' . esc_url( $default_image ) . '"/>';
-		} else {
-			$thumbnail_src = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'medium' );
-			echo '<meta property="og:image" content="' . esc_attr( $thumbnail_src[0] ) . '"/>';
-		}
-	},
-	10
-);
-
 /**
  * Allow uploading .MOBI and .EPUB files.
  */
@@ -317,5 +257,12 @@ add_filter(
 		$existing_mimes['mobi'] = 'application/x-mobipocket-ebook';
 		$existing_mimes['epub'] = 'application/epub+zip';
 		return $existing_mimes;
+	}
+);
+
+add_filter(
+	'the_content_more_link',
+	function() {
+		return '<a class="more-link block my-3" href="' . get_permalink() . '">Continue reading</a>';
 	}
 );

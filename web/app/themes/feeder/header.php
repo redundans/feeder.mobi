@@ -17,13 +17,11 @@
 	<?php wp_head(); ?>
 </head>
 
-<body <?php body_class(); ?>>
+<body <?php body_class( 'mx-9' ); ?>>
 
-<div id="page">
-	<a class="skip-link screen-reader-text" href="#content"><?php esc_html_e( 'Skip to content', 'feeder' ); ?></a>
-
-	<header id="masthead">
-		<div id="menu">
+<div id="page" class="container mx-auto">
+	<header id="masthead" class="my-6">
+		<nav id="menu" class="flex flex-row justify-between items-center">
 			<?php
 			if ( function_exists( 'the_custom_logo' ) ) :
 				the_custom_logo();
@@ -37,13 +35,22 @@
 			<ul>
 			<?php
 			if ( is_user_logged_in() && has_nav_menu( 'menu-private' ) ) {
-				wp_nav_menu( array( 'theme_location' => 'menu-private' ) );
+				wp_nav_menu(
+					array(
+						'theme_location' => 'menu-private',
+						'menu_class' => 'flex flex-row gap-6'
+					)
+				);
 			} else {
-				wp_nav_menu( array( 'theme_location' => 'menu-public' ) );
+				wp_nav_menu(
+					array(
+						'theme_location' => 'menu-public',
+					)
+				);
 			}
 			?>
 			</ul>
-		</div>
+		</nav>
 	</header>
 
-	<div id="content">
+	<div id="content" class="my-12 max-w-2xl mx-auto">
