@@ -45,6 +45,7 @@
 				wp_nav_menu(
 					array(
 						'theme_location' => 'menu-public',
+						'menu_class' => 'flex flex-row gap-6'
 					)
 				);
 			}
