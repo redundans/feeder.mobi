@@ -42,11 +42,6 @@ if (file_exists($root_dir . '/.env')) {
     }
 }
 
-define('AWS_SES_WP_MAIL_REGION', 'us-east-1');
-define('AWS_SES_WP_MAIL_KEY', 'AKIA4DCYMLR326TWYNU6');
-define('AWS_SES_WP_MAIL_SECRET', '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');
-define('AWS_SES_WP_MAIL_CONFIG_SET', 'feeder');
-
 /**
  * Set up our global environment constant and load its config first
  * Default: production
