@@ -43,7 +43,9 @@
     "woocommerce/action-scheduler": "^3.4",
     "wpackagist-plugin/buddypress": "^10.2",
     "wpackagist-plugin/disable-comments": "^2.3.5",
-    "wpackagist-plugin/disable-emails": "^1.8"
+    "wpackagist-plugin/disable-emails": "^1.8",
+    "wpackagist-plugin/spinupwp": "^1.4",
+    "wpackagist-plugin/limit-login-attempts-reloaded": "^2.25"
   },
   "require-dev": {
     "squizlabs/php_codesniffer": "^3.6.2",
