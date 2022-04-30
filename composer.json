@@ -56,7 +56,8 @@
     "wpackagist-plugin/limit-login-attempts-reloaded": "^2.25",
     "deliciousbrains-plugin/wp-migrate-db-pro": "*",
     "humanmade/aws-ses-wp-mail": "2.0.1-alpha",
-    "wpackagist-plugin/wp-mail-log": "^0.3.0"
+    "wpackagist-plugin/wp-mail-log": "^0.3.0",
+    "wpackagist-plugin/really-simple-captcha": "^2.1"
   },
   "require-dev": {
     "squizlabs/php_codesniffer": "^3.6.2",
