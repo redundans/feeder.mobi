@@ -49,3 +49,5 @@ wp-cli.local.yml
 .DS_Store
 .DS_Store?
 .nova
+auth.json
+.htaccess
