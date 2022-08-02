@@ -94,7 +94,7 @@ class Feeder_Scheduling {
 	}
 
 	/**
-	 * Genereate test mobi and return a download link.
+	 * Genereate test epub and return a download link.
 	 */
 	public static function run_test_schedule() {
 		$user          = wp_get_current_user();
@@ -104,8 +104,7 @@ class Feeder_Scheduling {
 		$feeds         = self::get_user_feeds( $user );
 		$chapters      = self::prepare_chapters_from_feeds( $feeds, $last );
 		$epub          = self::create_epub_from_chapters( $chapters, $user );
-		$mobi          = self::create_mobi_from_epub( $epub );
-		$mail          = self::mail_mobi( $user, $mobi );
+		$mail          = self::mail_epub( $user, $epub );
 
 		echo wp_json_encode(
 			array(
@@ -116,7 +115,7 @@ class Feeder_Scheduling {
 	}
 
 	/**
-	 * Genereate mobi and sent it to user.
+	 * Genereate epub and sent it to user.
 	 *
 	 * @param int $user_id User ID from the hook.
 	 */
@@ -127,8 +126,7 @@ class Feeder_Scheduling {
 		$feeds         = self::get_user_feeds( $user );
 		$chapters      = self::prepare_chapters_from_feeds( $feeds, $last );
 		$epub          = self::create_epub_from_chapters( $chapters, $user );
-		$mobi          = self::create_mobi_from_epub( $epub );
-		$mail          = self::mail_mobi( $user, $mobi );
+		$mail          = self::mail_epub( $user, $epub );
 
 		$user_settings->set_setting( 'last', current_time( 'timestamp' ) );
 	}
@@ -307,7 +305,32 @@ class Feeder_Scheduling {
 				'Content-Type: text/html; charset=UTF-8',
 				'From: feeder.mobi <delivery@feeder.mobi>',
 			);
+	
+			return wp_mail( $email, 'Your latest scheduled feed!', 'This mail contains the latest scheduled feed from <a href="' . esc_url( home_url( '/' ) ) . '">feeder.mobi</a>.', $headers, $attachments );
+		} else {
+			return false;
+		}
+	}
 
+	/**
+	 * Sends the epub as an attachement in a mail to the users registred device.
+	 *
+	 * @param WP_User $user An user object.
+	 * @param string  $epub An epub file url.
+	 * @return mixed.
+	 */
+	private static function mail_epub( $user, $epub ) {
+		if ( file_exists( $epub ) ) {
+			$attachments = array( $epub );
+			$email       = get_user_meta( $user->ID, 'feeder_email', true );
+			$headers     = array(
+				'From: feeder.mobi <delivery@feeder.mobi>',
+			);
+			$headers     = array(
+				'Content-Type: text/html; charset=UTF-8',
+				'From: feeder.mobi <delivery@feeder.mobi>',
+			);
+	
 			return wp_mail( $email, 'Your latest scheduled feed!', 'This mail contains the latest scheduled feed from <a href="' . esc_url( home_url( '/' ) ) . '">feeder.mobi</a>.', $headers, $attachments );
 		} else {
 			return false;
