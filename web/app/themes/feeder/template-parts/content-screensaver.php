@@ -47,7 +47,7 @@
 			<h2 class="font-bold text-2xl my-3">Latest uploaded image</h2>
 		</header>
 		<p class="my-12">
-			<img src="<?php echo esc_url(  $image  ); ?>">
+			<img src="<?php echo esc_url(  $image  ); ?>?<?php echo esc_attr( rand() ); ?>">
 		</p>
 		<h3 class="font-bold text-xl my-3">Static url</h3>
 		<p>
