@@ -266,3 +266,17 @@ add_filter(
 		return '<a class="more-link block my-3" href="' . get_permalink() . '">Continue reading</a>';
 	}
 );
+
+/**
+ * Makes an public url from an absulute file path.
+ *
+ * @param string $path A file path.
+ */
+function abs_path_to_url( $path = '' ) {
+	$url = str_replace(
+		wp_normalize_path( untrailingslashit( str_replace( '/wp', '', ABSPATH ) ) ),
+		str_replace( '/wp', '', site_url() ),
+		wp_normalize_path( $path )
+	);
+	return esc_url_raw( $url );
+}
