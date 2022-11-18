@@ -20,7 +20,7 @@
 			<h1 class="screen-heading general-settings-screen text-3xl font-bold my-3"><?php esc_html_e( 'Kindle screensaver', 'feeder' ); ?></h1>
 		</header><!-- .entry-header -->
 		<p>
-			<?php echo wp_kses( __( 'Here you will be able to upload an image that will be transformed to an png image sutable for Kindle Screensaver.', 'feeder' ), array( 'code' => array() ) ); ?>
+			<?php echo wp_kses( __( 'Here you are able to upload an image that will be transformed to an png image suitable for Kindle Screensavers.', 'feeder' ), array( 'code' => array() ) ); ?>
 		</p>
 
 		<?php
@@ -47,7 +47,7 @@
 			<h2 class="font-bold text-2xl my-3">Latest uploaded image</h2>
 		</header>
 		<p class="my-12">
-			<img src="<?php echo esc_url(  $image  ); ?>?<?php echo esc_attr( rand() ); ?>">
+			<img src="<?php echo esc_url(  $image  ); ?>?	<?php echo esc_attr( rand() ); ?>">
 		</p>
 		<h3 class="font-bold text-xl my-3">Static url</h3>
 		<p>
