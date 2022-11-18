@@ -70,6 +70,9 @@
     "allow-plugins": {
       "composer/installers": true,
       "roots/wordpress-core-installer": true
+    },
+    "platform": {
+        "php": "8.0"
     }
   },
   "minimum-stability": "dev",
