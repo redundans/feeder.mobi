@@ -205,7 +205,7 @@ class Feeder_Scheduling {
 
 		$upload_dir = wp_upload_dir();
 		$title      = self::get_epub_title( $user );
-		$file_name  = 'latest_book.epub';
+		$file_name  = "{$title}.epub";
 		$file_dir   = $upload_dir['basedir'] . '/' . $user->user_login;
 		if ( ! file_exists( $file_dir ) ) {
 			wp_mkdir_p( $file_dir );

@@ -1,5 +1,6 @@
 # Application
 web/app/themes
+!web/app/themes/feeder
 !web/app/themes/.gitkeep
 web/app/plugins
 web/app/mu-plugins
